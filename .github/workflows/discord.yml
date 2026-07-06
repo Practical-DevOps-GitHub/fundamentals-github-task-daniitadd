@@ -1,0 +1,19 @@
+name: Discord notification
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Discord notification
+        run: |
+          curl -H "Content-Type: application/json" \
+          -X POST \
+          -d '{
+            "content":"New PR created: '${{ github.event.pull_request.html_url }}'"
+          }' \
+          ${{ secrets.DISCORD_WEBHOOK }}
